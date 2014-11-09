@@ -17,7 +17,7 @@ ns out, ns-allinone may be easier than getting all the pieces by hand.
   
 >  New features for ns-2.35 release (see the ns-2/CHANGES.html file)
 
-## 3. Installing (Ubuntu)
+## 3. Installing (Ubuntu 14.04)
 
 #### step 1
 
