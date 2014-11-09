@@ -1,0 +1,113 @@
+The Mannasim Framework - Source Code distribution
+-----------------------
+
+To install Mannasim Framework source code distribution just follows the steps
+presented bellow:
+
+1. Get ns-2.29 all-in-one package from ns-2 site. 
+
+2. Get MannaSim Framework tar.gz file.
+
+3. Unpack the tar.gz file into ns-2.29 main folder (if using ns all-in-one 
+distribution ns-allinone-2.29/ns-2.29 folder). Inside mannasim/ folder just 
+created look for a ns-modified-files/ folder where ns-2.29 modified files are
+stored.
+
+4. Substitue ns-2.29 files listed bellow by it's MannaSim version
+stored in ns-modified-files/ folder in mannasim/ directory.
+
+- ns-2.29/apps/udp.cc
+- ns-2.29/common/ns-process.h
+- ns-2.29/common/packet.cc
+- ns-2.29/common/packet.h
+- ns-2.29/mac/mac-802_11.cc
+- ns-2.29/tcl/lib/ns-lib.tcl
+- ns-2.29/tcl/lib/ns-default.tcl
+- ns-2.29/Makefile.in
+
+5. In ns-2.29 main folder re-run configuration script and then re-compile the
+system:
+
+./configure
+./make
+
+
+6. Files provided within source code distribution. 
+
+- accessPointApp.cc
+- accessPointApp.h
+- aggregateProcessing.cc
+- aggregateProcessing.h
+- battery.cc
+- battery.h
+- carbonMonoxideAppData.cc
+- carbonMonoxideAppData.h
+- carbonMonoxideDataGenerator.cc
+- carbonMonoxideDataGenerator.h
+- clusterHeadApp.cc
+- clusterHeadApp.h
+- commonNodeApp.cc
+- commonNodeApp.h
+- dataGenerator.cc
+- dataGenerator.h
+- onDemandData.cc
+- onDemandData.h
+- onDemandParameter.cc
+- onDemandParameter.h
+- processing.cc
+- processing.h
+- sensedData.cc
+- sensedData.h
+- sensorBaseApp.cc
+- sensorBaseApp.h
+- sensorNode.cc
+- sensorNode.h
+- temperatureAppData.cc
+- temperatureAppData.h
+- temperatureDataGenerator.cc
+- temperatureDataGenerator.h
+
+- diffusion
+    - accessPointDiffApp.cc
+    - accessPointDiffApp.h
+    - attrsExporter.h
+    - commonNodeDiffApp.cc
+    - commonNodeDiffApp.h
+    - mannanmp.cc
+    - mannanmp.h
+    - nrAttributes.cc
+    - nrAttributes.h
+
+- leach
+    - app
+        - accessPointLeachApp.cc
+        - accessPointLeachApp.h
+        - leachApp.cc
+        - leachApp.h
+        - leachData.h
+   
+    - leachAgent.cc
+    - leachAgent.h
+    - mac
+        - leach-wireless-phy.cc
+        - leach-wireless-phy.h
+        - mac-sensor.cc
+        - mac-sensor.h
+        - mac-sensor-timers.cc
+        - mac-sensor-timers.h
+   
+    - rca
+        - rcagent.cc
+        - rcagent.h
+        - rca-ll.cc
+        - rca-ll.h
+
+- ns-modified-files
+    - mac-802_11.cc
+    - Makefile.in
+    - ns-default.tcl
+    - ns-lib.tcl
+    - ns-process.h
+    - packet.cc
+    - packet.h
+    - udp.cc

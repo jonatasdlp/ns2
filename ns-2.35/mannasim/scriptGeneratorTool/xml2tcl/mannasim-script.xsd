@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<xs:element name="simulation">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="trace" type="trace" minOccurs="0"/>
+				<xs:element name="time" type="xs:decimal"/>
+				<xs:element name="scenario" type="scenario"/>
+				<xs:choice minOccurs="0" maxOccurs="1">
+					<xs:element name="defaultNetwork" type="networkArchitecture"/>
+				</xs:choice>
+				<xs:element name="accessPoint" type="node" minOccurs="1" maxOccurs="unbounded"/>
+				<xs:element name="commonNode" type="sensorNode" minOccurs="1" maxOccurs="unbounded"/>
+				<xs:element name="clusterHead" type="sensorNode" minOccurs="1" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="scenario">
+		<xs:attribute name="width" type="xs:decimal" use="required"/>
+		<xs:attribute name="height" type="xs:decimal" use="required"/>
+	</xs:complexType>
+	
+	<xs:complexType name="antenna">
+		<xs:attribute name="name" default="Antenna/OmniAntenna" use="required" type="xs:string"/>
+		<xs:attribute name="x" default="0" use="optional" type="xs:decimal"/>
+		<xs:attribute name="y" default="0" use="optional" type="xs:decimal"/>
+		<xs:attribute name="z" default="1.5" use="optional" type="xs:decimal"/>
+		<xs:attribute name="gt" default="1.0" use="optional" type="xs:decimal"/>
+		<xs:attribute name="gr" default="1.0" use="optional" type="xs:decimal"/>
+	</xs:complexType>
+	
+	<xs:complexType name="wirelessPhy">
+		<xs:attribute name="profile" use="required" type="xs:string"/>
+		<xs:attribute name="range" use="optional" type="xs:decimal"/>
+	</xs:complexType>
+
+	<xs:simpleType name="sensorNode">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="mica"/>
+			<xs:enumeration value="mica2"/>
+			<xs:enumeration value="micaz"/>
+			<xs:enumeration value="custom"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:complexType name="networkArchitecture">
+		<xs:all>
+			<xs:element name="antenna" type="antenna" minOccurs="0"/>
+			<xs:element name="wirelessPhy" type="wirelessPhy" minOccurs="0"/>
+			<xs:element name="mac" type="xs:string" minOccurs="0"/>
+			<xs:element name="queue" type="queue" minOccurs="0"/>
+			<xs:element name="linkLayer" type="xs:string" minOccurs="0"/>
+			<xs:element name="routingProtocol" type="xs:string" minOccurs="0"/>
+			<xs:element name="disseminatingType" type="dsSettings" minOccurs="0"/>
+			<xs:element name="propagation" type="xs:string" minOccurs="0"/>
+			<xs:element name="energyModel" type="xs:string" minOccurs="0"/>
+		</xs:all>
+	</xs:complexType>
+	
+	<xs:complexType name="queue">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="length" use="required" type="xs:decimal"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<xs:simpleType name="dsType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="programmed"/>
+			<xs:enumeration value="continuous"/>
+			<xs:enumeration value="on demand"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:complexType name="dsSettings">
+		<xs:simpleContent>
+			<xs:extension base="dsType">
+				<xs:attribute name="interval" use="optional" type="xs:decimal"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	
+	<xs:complexType name="node">
+		<xs:sequence>
+			<xs:element name="network" type="networkArchitecture" minOccurs="0"/>
+			<xs:element name="energy" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="position" type="point" minOccurs="0"/>
+			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="start" type="xs:decimal"/>
+				<xs:element name="stop" type="xs:decimal"/>
+			</xs:sequence>
+			<xs:element name="application" type="xs:string"/>
+		</xs:sequence>
+		<xs:attribute name="times" type="xs:positiveInteger" use="optional" default="1"/>
+		<xs:attribute name="distribution" type="distribution" use="optional" default="random"/>
+	</xs:complexType>
+	
+	<xs:simpleType name="distribution">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="grid"/>
+			<xs:enumeration value="random"/>
+			<xs:enumeration value="custom"/>
+		</xs:restriction>
+	</xs:simpleType>
+		
+	<xs:complexType name="sensorNode">
+		<xs:complexContent>
+			<xs:extension base="node">
+				<xs:sequence>
+					<xs:element name="processing" type="xs:string"/> <!-- Processingclass -->
+					<!-- 
+					<xs:choice>
+						<xs:element name="temperatureGenerator" type="temperatureGenerator"/>
+						<xs:element name="dataGenerator" type="dataGenerator"/>
+					</xs:choice>
+					 -->
+					 <xs:element name="dataGenerator" type="dataGenerator" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="point">
+		<xs:attribute name="x"  use="required" type="xs:decimal"/>
+		<xs:attribute name="y" use="required" type="xs:decimal"/>
+		<xs:attribute name="z" use="required" type="xs:decimal"/>
+	</xs:complexType>
+	
+	<xs:complexType name="trace">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="mac" type="xs:boolean"/>
+				<xs:attribute name="router" type="xs:boolean"/>
+				<xs:attribute name="agent" type="xs:boolean"/>
+				<xs:attribute name="movement" type="xs:boolean"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	
+	<xs:complexType name="dataGenerator">
+		<xs:element name="sensingInterval" type="xs:decimal"/>
+		<xs:element name="sensingType" type="dsType"/>
+		<xs:element name="avgMeasure" type="xs:decimal"/>
+		<xs:element name="stdDeviation" type="xs:decimal"/>
+		<xs:element name="max" type="xs:decimal"/>
+		<xs:attribute name="type" type="xs:string" use="required"/>
+	</xs:complexType>
+
+<!-- 
+	<xs:complexType name="dataGenerator">
+		<xs:element name="sensingInterval" type="xs:decimal"/>
+		<xs:element name="sensingType" type="dsType"/>
+	</xs:complexType>
+	
+	<xs:complexType name="temperatureGenerator">
+		<xs:complexContent>
+			<xs:extension base="dataGenerator">
+				<xs:element name="avgMeasure" type="xs:decimal"/>
+				<xs:element name="stdDeviation" type="xs:decimal"/>
+				<xs:element name="max" type="xs:decimal"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+-->	
+	
+</xs:schema>
